@@ -1,0 +1,161 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Testes? Refatorações?</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <meta name="description" content="Apresentação sobre testes e refatoração">
+        <meta name="author" content="Elysson MR">
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/night.css">
+
+        <!-- Theme used for syntax highlighting of code -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h2>Teste? Refatoração?</h2>
+                    <h4>Dicas para deixar seu código "testável"</h4>
+                    <p>
+                        <small><a href="https://github.com/elyssonmr">Elysson MR</a> / <a href="http://twitter.com/elyssonmr">@elyssonmr</a></small>
+                    </p>
+                    <p><small>Analista Implementador na <a href="https://www.softplan.com.br">Softplan</a></small></p>
+                </section>
+                <section>
+                    <h2>Spoilers</h2>
+                    <ul>
+                        <li>Porque testes unitários são importantes?</li>
+                        <li>Como identificar um "mal cheiro" (bad smell)</li>
+                        <li>Técnicas de refatoração</li>
+                        <li>Como testes unitários podem apoiar a refatoração de código?</li>
+                        <li>Técnicas de teste</li>
+                        <li>Aumentando a testabilidade do código (Exemplo)</li>
+                        <li>Conclusão</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Porque testes unitários são importantes?</h3>
+                    <ul>
+                        <li class="fragment fade-down">Eles dão um feedback muito rápido sobre o código</li>
+                        <li class="fragment fade-right">Apontam onde o seu seu código está quebrando e/ou efeitos colaterais da implementação</li>
+                        <li class="fragment fade-up">Dão mais confiança em alterar o código</li>
+                        <li class="fragment fade-left">Podem garantir a manutenção da "testabilidade" do código</li>
+                        <li class="fragment fade-in">Ajudam na melhor compreensão do funcionamento do sistema</li>
+                    </ul>
+                </section>
+                <section>
+                    <h3>Como identificar um "mal cheiro" (bad smell)</h3>
+                    <ol>
+                        <li class="fragment fade-down">Código duplicado</li>
+                        <li class="fragment fade-right">Métodos longos (Certeza que possuem muitas responsabilidades)</li>
+                        <li class="fragment fade-up">Alto acoplamento</li>
+                        <li class="fragment fade-left">Encadeamento de mensagens</li>
+                        <li class="fragment fade-in">Classes de dados (dicionáriooo?!?! Te amo!! ;* )</li>
+                        <li class="fragment fade-down">Códigos complexos no geral</li>
+                    </ol>
+                </section>
+                <section>
+                    <h3>Exemplo de mal cheiro</h3>
+                    <pre>
+                        <code class="python">print('Bem vindo')
+print('Operações: Soma, subtração, multiplicação e divisão de números inteiros de 0 à 50')
+num1 = int(input('Escolha o primeiro número: '))
+sign = input('Qual a operação? +, -, /, or *: ')
+num2 = int(input('Escolha o segundo número: '))
+
+if num1 == 0 and sign == '+' and num2 == 0:
+    print("0+0 = 0")
+if num1 == 0 and sign == '+' and num2 == 1:
+    print("0+1 = 1")
+if num1 == 0 and sign == '+' and num2 == 2:
+    print("0+2 = 2")
+
+# O código simplesmente faz um IF e ELSE com todas possibilidades</code>
+                    </pre>
+                    <p><small>Adaptado de <a href="https://github.com/sobolevn/python-code-disasters/blob/master/python/my_first_calculator.py">python-code-disasters</a></small></p>
+                </section>
+                <section>
+                    <h3>Técnicas de refatoração</h3>
+                    <ol>
+                        <li class="fragment fade-down">Código duplicado</li>
+                        <li class="fragment fade-right">Métodos longos (Certeza que possuem muitas responsabilidades)</li>
+                        <li class="fragment fade-up">Alto acoplamento</li>
+                        <li class="fragment fade-left">Encadeamento de mensagens</li>
+                        <li class="fragment fade-in">Classes de dados (dicionáriooo?!?! Te amo!! ;* )</li>
+                        <li class="fragment fade-down">Códigos complexos no geral</li>
+                    </ol>
+                </section>
+
+
+
+
+                <section>
+                    <h3>Como testes unitários podem apoiar a refatoração de código?</h3>
+                    <ul>
+                        <li class="fragment fade-down">Imaginem que temos uma função "faz tudo". Ela lê o valor, calcula os impostos e então imprime os impostos calculados</li>
+                    </ul>
+                    <pre class="fragment fade-up">
+                        <code class="python">def calcular_impostos():
+    valor = float(input("Valor: "))
+    icms_calculado = valor * 0.1
+    cofins_calculado = valor * 0.15
+    iss_calculado = valor * 0.05
+
+    print(icms_calculado)
+    print(cofins_calculado)
+    print(iss_calculado)</code>
+                    </pre>
+                </section>
+                <section>
+                    <h3>Como testes unitários podem apoiar a refatoração de código?</h3>
+                    <ul>
+                        <li class="fragment fade-down">Se fizermos um teste que mocka o input, invoca a funcção e captura os prints (usando mock também) conseguiriamos validar funcionamento certo?</li>
+                    </ul>
+                    <pre class="fragment fade-up">
+                        <code class="python">from unittest import TestCase, main
+class CalculoImpostoTesCase(TestCase):
+    def test_calcular_impostos(self):</code>
+                    </pre>
+                </section>
+            </div>
+        </div>
+
+        <script src="lib/js/head.min.js"></script>
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // More info about config & dependencies:
+            // - https://github.com/hakimel/reveal.js#configuration
+            // - https://github.com/hakimel/reveal.js#dependencies
+            Reveal.initialize({
+                controls: true,
+                progress: true,
+                history: true,
+                center: true,
+                slideNumber: true,
+                transition: 'concave', // none/fade/slide/convex/concave/zoom
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+                ]
+            });
+        </script>
+    </body>
+</html>
