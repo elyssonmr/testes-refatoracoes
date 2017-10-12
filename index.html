@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Testes? Refatorações?</title>
+        <title>Teste &hearts; Refatoração</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <meta name="description" content="Apresentação sobre testes e refatoração">
         <meta name="author" content="Elysson MR">
@@ -15,6 +15,7 @@
 
         <!-- Theme used for syntax highlighting of code -->
         <link rel="stylesheet" href="lib/css/zenburn.css">
+        <link rel="stylesheet" href="/css/font-awesome.min.css">
 
         <!-- Printing and PDF exports -->
         <script>
@@ -29,7 +30,7 @@
         <div class="reveal">
             <div class="slides">
                 <section>
-                    <h2>Teste? Refatoração?</h2>
+                    <h2>Teste <i class="fa fa-heart" aria-hidden="true"></i> Refatoração</h2>
                     <h4>Dicas para deixar seu código "testável"</h4>
                     <p>
                         <small><a href="https://github.com/elyssonmr">Elysson MR</a> / <a href="http://twitter.com/elyssonmr">@elyssonmr</a></small>
@@ -39,98 +40,206 @@
                 <section>
                     <h2>Spoilers</h2>
                     <ul>
-                        <li>Porque testes unitários são importantes?</li>
-                        <li>Como identificar um "mal cheiro" (bad smell)</li>
-                        <li>Técnicas de refatoração</li>
-                        <li>Como testes unitários podem apoiar a refatoração de código?</li>
-                        <li>Técnicas de teste</li>
-                        <li>Aumentando a testabilidade do código (Exemplo)</li>
-                        <li>Conclusão</li>
+                        <li>
+                            Conceitual
+                            <ul>
+                                <li>Testes</li>
+                                <li>Técnicas de refatoração</li>
+                                <li>Sintomas de "badsmellite"</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Prático
+                            <ul>
+                                <li>Aplicando técnicas de refatoração</li>
+                                <li>Como teste e refatoração andam juntos</li>
+                            </ul>
+                        </li>
+                        <li>Conclusões</li>
                     </ul>
                 </section>
                 <section>
-                    <h3>Porque testes unitários são importantes?</h3>
+                    <h1><i class="fa fa-exclamation-triangle fa-6"></i></h1>
+                    <p>Disclaimer</p>
+                </section>
+                <section>
+                    <h2>Conceitual</h2>
+                </section>
+                <section>
+                    <h3>Testes</h3>
                     <ul>
-                        <li class="fragment fade-down">Eles dão um feedback muito rápido sobre o código</li>
-                        <li class="fragment fade-right">Apontam onde o seu seu código está quebrando e/ou efeitos colaterais da implementação</li>
-                        <li class="fragment fade-up">Dão mais confiança em alterar o código</li>
-                        <li class="fragment fade-left">Podem garantir a manutenção da "testabilidade" do código</li>
-                        <li class="fragment fade-in">Ajudam na melhor compreensão do funcionamento do sistema</li>
+                        <li class="fragment fade-down">Testes no geral validam se o sistema está de acordo com a especificação</li>
+                        <li class="fragment fade-right">"Garantem a qualidade do sistema"</li>
+                        <li class="fragment fade-up">Auxiliam no etendimento e a evolução do sistema</li>
+                        <li class="fragment fade-left">São divididos em 5 tipos: <b>unidade</b>, <b>integração</b>, <b>sistema</b>, <b>aceitação</b> e <b>operação</b></li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Conceitos - Tipos de Teste</h3>
+                    <ul>
+                        <li class="fragment fade-down">
+                            Unidade
+                            <ul>
+                                <li class="fragment fade-down">Testam as menores unidades de software (pequenas partes ou unidades do sistema)</li>
+                                <li class="fragment fade-down">O alvo desse tipo de teste são: subrotinas, métodos, classes ou mesmo pequenos trechos de código</li>
+                                <li class="fragment fade-down">Identificam falhas dentro de uma parte do sistema independente do todo</li>
+                                <li class="fragment fade-down">São os rapídos de serem executados (ou deveriam ser)</li>
+                            </ul>
+                        </li>
                     </ul>
                 </section>
                 <section>
-                    <h3>Como identificar um "mal cheiro" (bad smell)</h3>
-                    <ol>
-                        <li class="fragment fade-down">Código duplicado</li>
-                        <li class="fragment fade-right">Métodos longos (Certeza que possuem muitas responsabilidades)</li>
-                        <li class="fragment fade-up">Alto acoplamento</li>
-                        <li class="fragment fade-left">Encadeamento de mensagens</li>
-                        <li class="fragment fade-in">Classes de dados (dicionáriooo?!?! Te amo!! ;* )</li>
-                        <li class="fragment fade-down">Códigos complexos no geral</li>
-                    </ol>
-                </section>
-                <section>
-                    <h3>Exemplo de mal cheiro</h3>
+                    <h3>Conceitos - Tipos de Teste</h3>
+                    <p>Exemplo de teste de unidade</p>
                     <pre>
-                        <code class="python">print('Bem vindo')
-print('Operações: Soma, subtração, multiplicação e divisão de números inteiros de 0 à 50')
-num1 = int(input('Escolha o primeiro número: '))
-sign = input('Qual a operação? +, -, /, or *: ')
-num2 = int(input('Escolha o segundo número: '))
+                        <code data-trim data-noescape>
+                            import unittest
 
-if num1 == 0 and sign == '+' and num2 == 0:
-    print("0+0 = 0")
-if num1 == 0 and sign == '+' and num2 == 1:
-    print("0+1 = 1")
-if num1 == 0 and sign == '+' and num2 == 2:
-    print("0+2 = 2")
+                            def impar_par(numero):
+                                if numero % 2:
+                                    return "Ímpar"
+                                else:
+                                    return "Par"
 
-# O código simplesmente faz um IF e ELSE com todas possibilidades</code>
+                            class ImparParTestCase(unittest.TestCase):
+                                def test_impar_par_retorna_par(self):
+                                    esperado = "Par"
+                                    resposta = impar_par(2)
+                                    self.assertEqual(esperado, resposta)
+                        </code>
                     </pre>
-                    <p><small>Adaptado de <a href="https://github.com/sobolevn/python-code-disasters/blob/master/python/my_first_calculator.py">python-code-disasters</a></small></p>
                 </section>
+
+                <section>
+                    <h3>Conceitos - Tipos de Teste</h3>
+                    <ul>
+                        <li class="fragment fade-right">
+                            Integração
+                            <ul>
+                                <li class="fragment fade-right">Auxiliam a encontrar falhas provenientes da integração interna dos componentes de um sistema</li>
+                                <li class="fragment fade-right">Usados para testar o relacionamento entre componentes do sistema <strike>e a integração com outros sistemas</strike></li>
+                                <li class="fragment fade-right">Nível de teste preferidos dos <a href="https://docs.python.org/3/library/unittest.mock-examples.html" target="_blank">Mocks</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Conceitos - Tipos de Teste</h3>
+                    <p>Exemplo de teste de integração</p>
+                    <pre>
+                        <code data-trim data-noescape>
+                            class CarrinhoCompras:
+                                # ...
+                                def calcular_descontos(self):
+                                    desconto = descontos.calcular(
+                                        self.total, self._tipo_pagamento)
+                                    return desconto
+                            
+                            class CarrinhoComprasTestCase(unittest.TestCase):
+                                def test_fechar_compra_avista(self):
+                                    produtos = [{"nome": "ProdutoA", "valor": 10},
+                                                {"nome": "ProdutoB", "valor": 90}]
+                                    carrinho = CarrinhoCompras(produtos, avista)
+                                    esperado = 10
+                                    desconto = carrinho.calcular_descontos()
+                                    self.assertEqual(esperado, desconto)
+                        </code>
+                    </pre>
+                </section>
+
+                <section>
+                    <h3>Conceitos - Refatoração</h3>
+                    <ul>
+                        <li class="fragment fade-up">Refatoração de código é o processo de reestruturar código existente sem alterar o comportamento</li>
+                        <li class="fragment fade-up"><i class="fa fa-arrow-down"></i> complexidade <i class="fa fa-arrow-up"></i> legibilidade, mantenabilidade e a extensibilidade do código</li>
+                        <li class="fragment fade-up">Refatoração ajuda a encontrar bugs escondidos</li>
+                        <li class="fragment fade-up">Deixa seus coleguinhas felizes <i class="fa fa-handshake-o"></i></li>
+                        <li class="fragment fade-up">Pode ser aplicada usando baby-steps</li>
+                        <li class="fragment fade-up">Remédio ideal para "badsmellite"</li>
+                    </ul>
+                </section>
+
                 <section>
                     <h3>Técnicas de refatoração</h3>
-                    <ol>
-                        <li class="fragment fade-down">Código duplicado</li>
-                        <li class="fragment fade-right">Métodos longos (Certeza que possuem muitas responsabilidades)</li>
-                        <li class="fragment fade-up">Alto acoplamento</li>
-                        <li class="fragment fade-left">Encadeamento de mensagens</li>
-                        <li class="fragment fade-in">Classes de dados (dicionáriooo?!?! Te amo!! ;* )</li>
-                        <li class="fragment fade-down">Códigos complexos no geral</li>
-                    </ol>
+                    <ul>
+                        <li class="fragment fade-left">
+                            Algumas técnicas:
+                            <ul>
+                                <li class="fragment fade-left">Extração de métodos</li>
+                                <li class="fragment fade-left">Extração de classes</li>
+                                <li class="fragment fade-left">Renomeação de métodos</li>
+                                <li class="fragment fade-left">Decomposição condicional</li>
+                            </ul>
+                        </li>
+                    </ul>
                 </section>
 
-
-
+                <section>
+                    <h3>Sintomas de "badsmellite"</h3>
+                    <ul>
+                        <li class="fragment fade-in">Código duplicado</li>
+                        <li class="fragment fade-in">Métodos longos</li>
+                        <li class="fragment fade-in">Classes grandes</li>
+                        <li class="fragment fade-in">"ifs" complexos</li>
+                    </ul>
+                </section>
 
                 <section>
-                    <h3>Como testes unitários podem apoiar a refatoração de código?</h3>
-                    <ul>
-                        <li class="fragment fade-down">Imaginem que temos uma função "faz tudo". Ela lê o valor, calcula os impostos e então imprime os impostos calculados</li>
-                    </ul>
-                    <pre class="fragment fade-up">
-                        <code class="python">def calcular_impostos():
-    valor = float(input("Valor: "))
-    icms_calculado = valor * 0.1
-    cofins_calculado = valor * 0.15
-    iss_calculado = valor * 0.05
+                        <h3>Exemplo de mal cheiro</h3>
+                        <pre>
+                            <code data-trim data-noescape>
+                                print('Operações aritiméticas de números inteiros de 0 à 50')
+                                num1 = int(input('Escolha o primeiro número: '))
+                                sign = input('Qual a operação? +, -, /, or *: ')
+                                num2 = int(input('Escolha o segundo número: '))
 
-    print(icms_calculado)
-    print(cofins_calculado)
-    print(iss_calculado)</code>
-                    </pre>
+                                if num1 == 0 and sign == '+' and num2 == 0:
+                                    print("0+0 = 0")
+                                if num1 == 0 and sign == '+' and num2 == 1:
+                                    print("0+1 = 1")
+                                if num1 == 0 and sign == '+' and num2 == 2:
+                                    print("0+2 = 2")
+
+                                ...
+
+                                # Simplesmente faz um IF e ELSE com todas possibilidades
+                            </code>
+                        </pre>
+                        <p><small>Adaptado de <a href="https://github.com/sobolevn/python-code-disasters/blob/master/python/my_first_calculator.py">python-code-disasters</a></small></p>
+                    </section>
+
+                <section>
+                    <h2>Prático</h2>
+                </section>
+
+                <section>
+                    <h3>Aplicando técnicas de refatoração</h3>
+                </section>
+
+                <section>
+                    <h3>Conclusões</h3>
+                    <ul>
+                        <li class="fragment fade-down">Os testes precisam ser rápidos para incentivar a sua execução continua</li>
+                        <li class="fragment fade-right">Devem ser bem escritos para não testar se True == True</li>
+                        <li class="fragment fade-up">Testes dão mais confiança para alterar o código</li>
+                        <li class="fragment fade-left">Ajudam a compreender melhor o funcionamento do sistema</li>
+                    </ul>
                 </section>
                 <section>
-                    <h3>Como testes unitários podem apoiar a refatoração de código?</h3>
-                    <ul>
-                        <li class="fragment fade-down">Se fizermos um teste que mocka o input, invoca a funcção e captura os prints (usando mock também) conseguiriamos validar funcionamento certo?</li>
-                    </ul>
-                    <pre class="fragment fade-up">
-                        <code class="python">from unittest import TestCase, main
-class CalculoImpostoTesCase(TestCase):
-    def test_calcular_impostos(self):</code>
-                    </pre>
+                    <h2>Venha ser um Softplayer</h2>
+                </section>
+                <section>
+                    <h2>Perguntas?</h2>
+                    <p><i class="fa fa-at"></i> <a href="http://elyssonmr.com" target="_blank">elyssonmr.com</a></p>
+                    <p><i class="fa fa-envelope"></i> <a href="#" target="_blank">elyssonmr at gmail dot com</a></p>
+                    <p><i class="fa fa-twitter-square"></i> <a href="https://twitter.com/elyssonmr" target="_blank">@elyssonmr</a></p>
+                    <p><i class="fa fa-linkedin-square"></i> <a href="https://br.linkedin.com/in/elyssonmr" target="_blank">Élysson Mendes Rezende</a></p>
+                    <p><i class="fa fa-github-square"></i> <a href="https://github.com/elyssonmr" target="_blank">elyssonmr</a></p>
+                </section>
+                <section>
+                    <h2>Muito Obrigado!!</h2>
                 </section>
             </div>
         </div>
