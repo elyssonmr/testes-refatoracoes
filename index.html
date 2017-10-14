@@ -84,7 +84,7 @@
                                 <li class="fragment fade-down">Testam as menores unidades de software (pequenas partes ou unidades do sistema)</li>
                                 <li class="fragment fade-down">O alvo desse tipo de teste são: subrotinas, métodos, classes ou mesmo pequenos trechos de código</li>
                                 <li class="fragment fade-down">Identificam falhas dentro de uma parte do sistema independente do todo</li>
-                                <li class="fragment fade-down">São os rapídos de serem executados (ou deveriam ser)</li>
+                                <li class="fragment fade-down">São os testes mais rapídos de serem executados (ou deveriam ser)</li>
                             </ul>
                         </li>
                     </ul>
@@ -150,6 +150,23 @@
                 </section>
 
                 <section>
+                    <h3>Conceitos - TDD</h3>
+                    <ul>
+                        <li class="fragment fade-down">É uma técnica de desenvolvimento de software</li>
+                        <li class="fragment fade-right">Consiste na repetição de um pequeno ciclo de desenvolvimento</li>
+                        <li class="fragment fade-up">Auxilia na decomposição da implementação</li>
+                        <li class="fragment fade-left">Permite o incremento e a evolução do sistema gradativamente</li>
+                        <li class="fragment fade-in">Incentiva a utilização de <b>baby steps</b> (pequenos passos)</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h3>Conceitos - TDD</h3>
+                    <p>Ciclo TDD - Adaptado de <a href="http://agiledata.org/essays/tdd.html" target="_blank">Agile Data</a></p>
+                    <img src="/img/processo_tdd.jpg" alt="ciclo tdd">
+                </section>
+
+                <section>
                     <h3>Conceitos - Refatoração</h3>
                     <ul>
                         <li class="fragment fade-up">Refatoração de código é o processo de reestruturar código existente sem alterar o comportamento</li>
@@ -168,7 +185,7 @@
                             Algumas técnicas:
                             <ul>
                                 <li class="fragment fade-left">Extração de métodos</li>
-                                <li class="fragment fade-left">Extração de classes</li>
+                                <li class="fragment fade-left">Extração de campos <strike>e Classe</strike></li>
                                 <li class="fragment fade-left">Renomeação de métodos</li>
                                 <li class="fragment fade-left">Decomposição condicional</li>
                             </ul>
@@ -187,7 +204,7 @@
                 </section>
 
                 <section>
-                        <h3>Exemplo de mal cheiro</h3>
+                        <h3>Exemplo de "badsmellite"</h3>
                         <pre>
                             <code data-trim data-noescape>
                                 print('Operações aritiméticas de números inteiros de 0 à 50')
@@ -219,16 +236,74 @@
                 </section>
 
                 <section>
+                    <h3>Extração de Métodos</h3>
+                    <ol>
+                        <li class="fragment fade-down">Crie um novo método. Teste</li>
+                        <li class="fragment fade-down">Copie o código a ser extraído e cole no novo método. Teste</li>
+                        <li class="fragment fade-down">Procure por variáveis locais no código extraído. Elas precisam ser declaradas ou serem passadas como argumento. Adivinha??</li>
+                        <li class="fragment fade-down">Troque o código extraído pela invocação do novo método. Teste de novo</li>
+                    </ol>
+                </section>
+                <section>
+                    <h3>Extração de Campos <strike>e Classes</strike></h3>
+                    <ol>
+                        <li class="fragment fade-right">Crie uma nova classe</li>
+                        <li class="fragment fade-right">Adicione o atributo que deve ser movido</li>
+                        <li class="fragment fade-right">Determine como esse atributo deverá ser acessado da fonte (classe antiga)</li>
+                        <li class="fragment fade-right">Altere toda a referencia do campo para a referencia da nova classe</li>
+                        <li class="fragment fade-right">Teste</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h3>Renomeação de Métodos</h3>
+                    <ol>
+                        <li class="fragment fade-up">Declare um novo método com o nome desejado</li>
+                        <li class="fragment fade-up">Copie o corpo do antigo método para o novo</li>
+                        <li class="fragment fade-up">Altere o corpo do antigo método para ele invocar o novo método. Teste!</li>
+                        <li class="fragment fade-up">Procure todas as refencias do antigo método e altere para invocar o novo. Teste, a cada referênca alterada!</li>
+                        <li class="fragment fade-up">Remova o método antigo. Caso ele faça parte de alguma API, apenas o marque como depreciado</li>
+                        <li class="fragment fade-up">Teste</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h3>Decomposição Condicional</h3>
+                    <ol>
+                        <li class="fragment fade-left">Extraia a condição no método próprio dela</li>
+                        <li class="fragment fade-left">Substitua a condição pela invocação do método. Teste!!</li>
+                        <li class="fragment fade-left">Extraia o "então" para o seu própio método</li>
+                        <li class="fragment fade-left">Substitua o então pela invocação do método. Teste!!</li>
+                        <li class="fragment fade-left">Repetir os 2 ultimos passos para o "senão". Teste!!</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <h3>Vamos fazer juntos?</h3>
+                </section>
+
+                <section>
                     <h3>Conclusões</h3>
                     <ul>
-                        <li class="fragment fade-down">Os testes precisam ser rápidos para incentivar a sua execução continua</li>
-                        <li class="fragment fade-right">Devem ser bem escritos para não testar se True == True</li>
-                        <li class="fragment fade-up">Testes dão mais confiança para alterar o código</li>
-                        <li class="fragment fade-left">Ajudam a compreender melhor o funcionamento do sistema</li>
+                        <li class="fragment fade-down">Os testes automatizados nos apoiaram durante a refatoração</li>
+                        <li class="fragment fade-right">Os testes garantiram o exito do processo de refatoração</li>
+                        <li class="fragment fade-up">As refatorações garantiram que o meu código fosse mais testável e organizado</li>
+                        <li class="fragment fade-left">Senti que tive mais confiança em alterar o código</li>
                     </ul>
                 </section>
                 <section>
+                        <h3>Referências/Recomendações</h3>
+                        <ul>
+                            <li><a href="https://www.amazon.com/Refactoring-Ruby-Addison-Wesley-Professional/dp/0321984137" target="_blank">Refactoring, Ruby Edition</a></li>
+                            <li><a href="https://www.amazon.com.br/TDD-Desenvolvimento-Guiado-por-Testes/dp/857780724X" target="_blank">TDD - Desenvolvimento Guiado por Testes</a></li>
+                            <li><a href="https://technologyconversations.com/2013/12/20/test-driven-development-tdd-example-walkthrough/" target="_blank">TDD: Example Walkthrough</a></li>
+                            <li><a href="https://pt.wikipedia.org/wiki/Teste_de_software" target="_bank">Teste de Software</a></li>
+                        </ul>
+                    </section>
+                <section>
                     <h2>Venha ser um Softplayer</h2>
+                    <img src="img/logo_softplan.png" alt="venha ser um softplayer" style="background-color: white;">
+                    <a href="https://www.softplan.com.br/carreira" target="_blank">https://www.softplan.com.br/carreira</a>
                 </section>
                 <section>
                     <h2>Perguntas?</h2>
